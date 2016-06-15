@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.carecloud.logger</groupId>
+  <artifactId>logger-library</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>logger-library</name>
+  <description>logger-library</description>
+  
+<dependencies>
+<!-- http://mvnrepository.com/artifact/org.projectlombok/lombok -->
+	<dependency>
+    	<groupId>org.projectlombok</groupId>
+    	<artifactId>lombok</artifactId>
+    	<version>0.11.4</version>
+	</dependency>
+<!-- http://mvnrepository.com/artifact/log4j/log4j -->
+	<dependency>
+	    <groupId>log4j</groupId>
+	    <artifactId>log4j</artifactId>
+	    <version>1.2.17</version>
+	</dependency>
+<!-- http://mvnrepository.com/artifact/org.json/json -->
+	<dependency>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20160212</version>
+	</dependency>
+	  <dependency>
+	        <groupId>org.slf4j</groupId>
+	        <artifactId>slf4j-api</artifactId>
+	        <version>1.7.21</version>
+	  </dependency>  
+    <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.21</version>
+    </dependency>  
+</dependencies>
+<!--  Deploying Maven Repository to Github -->
+
+<!--  First deploy in local repository -->
+<distributionManagement> 	
+  	<repository>
+  		<id>logger-library-release</id>
+  		<url>file://${project.build.directory}/logger-library/</url>
+  	</repository>  	  	
+  	<snapshotRepository>
+  		<id>logger-library-release</id>
+  		<url>file://${project.build.directory}/logger-library/</url>
+  	</snapshotRepository>
+</distributionManagement>
+
+<!--  Add Github Server Configuration -->
+<properties>
+  	<github.global.server>github</github.global.server>
+</properties>
+
+<!--  SCM Configuration -->
+<scm>
+ 	<connection>scm:git:git@github.com/schouksey/test-repo.git</connection>  	
+</scm>
+
+<!-- MAVEN Build Libraries -->
+<build>  
+  <plugins>
+  	<plugin>
+  		<groupId>com.apache.maven.plugins</groupId>
+  		<artifactId>maven-compiler-plugin</artifactId>
+  		<version>3.2</version>
+  		<configuration>
+  			<source>1.8</source>
+  			<target>1.8</target>
+  		</configuration>
+  	</plugin>
+  	<plugin>
+  		   	<groupId>com.github.github</groupId>
+   			<artifactId>site-maven-plugin</artifactId>
+    		<version>0.12</version>
+  		<configuration>
+  			<outputDirectory>${project.build.directory}/logger-library/</outputDirectory>
+  			<includes><include>**/*</include></includes>
+  			<repositoryName>test-repo</repositoryName>
+  			<repositoryOwner>schouksey</repositoryOwner>
+  			<branch>refs/heads/master</branch>
+  			<message> Deploy logger-library for ${project.version}</message>  			
+  		</configuration>
+  		<executions>
+	  		<execution>
+	  			<goals>
+	  				<goal>site</goal>
+	  			</goals>
+	  			<phase>deploy</phase>
+	  		</execution>	  			
+  		</executions>
+  	</plugin>
+  	<!-- To generate java docs 
+  	<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-javadoc-plugin</artifactId>
+		  <executions>
+		    <execution>
+		      <id>attach-javadocs</id>
+		      <goals>
+		        <goal>jar</goal>
+		      </goals>
+		  </execution>
+		  </executions>
+	</plugin>
+	-->
+  </plugins>      
+</build>  
+</project>
